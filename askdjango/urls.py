@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^sample/', include('sample.urls', namespace='sample')),
     url(r'^ep03/', include('ep03.urls', namespace='ep03')),
+    url(r'^ep04/', include('ep04.urls', namespace='ep04')),
 ]
 
