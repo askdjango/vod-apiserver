@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^ep03/', include('ep03.urls', namespace='ep03')),
     url(r'^ep04/', include('ep04.urls', namespace='ep04')),
     url(r'^ep06/', include('ep06.urls', namespace='ep06')),
+    url(r'^ep08/', include('ep08.urls', namespace='ep08')),
 ]
 
