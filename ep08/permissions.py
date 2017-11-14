@@ -4,6 +4,8 @@ from rest_framework import permissions
 class IsAuthorUpdateOrReadonly(permissions.BasePermission):
     # 인증된 유저에 한해, 목록조회/포스팅등록을 허용
     def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
         return request.user.is_authenticated
 
     # superuser에게는 삭제 권한만 부여하고
