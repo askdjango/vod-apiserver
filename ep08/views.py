@@ -1,7 +1,9 @@
+import json
 import time
 from django.shortcuts import render
 from django.core.cache import cache
 from django.core.signals import request_started, request_finished
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Post
@@ -42,7 +44,7 @@ class PostViewSet(ModelViewSet):
         response = super().dispatch(request, *args, **kwargs)
 
         render_start = time.time()
-        response.render()
+        # response.render()
         self.render_time = time.time() - render_start
 
         self.dispatch_time = time.time() - dispatch_start
@@ -55,14 +57,14 @@ class PostViewSet(ModelViewSet):
 
         data = cache.get('post_list_cache')
         if data is None:
-            data = self.queryset.values('author__username', 'message')
+            data = list(self.queryset.values('author__username', 'message'))
             cache.set('post_list_cache', data)
 
         self.db_time = time.time() - db_start
 
         self.serializer_time = 0
 
-        return Response(data)
+        return HttpResponse(json.dumps(data), content_type='application/json; charset=utf8')
 
 
 def started_fn(sender, **kwargs):
